@@ -166,16 +166,19 @@ pip install -r requirements.txt
 
 Department of Computer Science  
 Specialization: Artificial Intelligence and Data Science.
+
 Contribution: Designed the Attention-KNN architecture, implemented the pipeline.
 
 **Aida HANAD**
 
 Department of Computer Science  
 Specialization: Artificial Intelligence and Data Science.
+
 Contribution: Trained and evaluated the model.
 
 **Rania MEDLES**
 
 Department of Computer Science  
 Specialization: Artificial Intelligence and Data Science.
+
 Contribution: Conducted experiments, Analyzed results.
