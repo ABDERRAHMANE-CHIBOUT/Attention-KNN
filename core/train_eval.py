@@ -2,20 +2,6 @@ import torch
 from core.knn import get_knn
 
 def train(model, X_train, y_train, optimizer, loss_fn, K):
-    """
-    Trains the model on the given data.
-
-    Args:
-        model: The model to be trained.
-        X_train: The training data.
-        y_train: The labels for the training data.
-        optimizer: The optimizer to use for training.
-        loss_fn: The loss function to use for training.
-        K: The number of nearest neighbors to consider when training the model.
-
-    Returns:
-        The average loss over the training data.
-    """
     model.train()
     total_loss = 0.0
 
@@ -23,11 +9,21 @@ def train(model, X_train, y_train, optimizer, loss_fn, K):
         x = X_train[i]
         y = y_train[i]
 
+        # Get neighbors
         neighbors, labels = get_knn(x, X_train, y_train, K)
 
-        pred = model(x, neighbors, labels).unsqueeze(0)
+        # Add batch dimension
+        x = x.unsqueeze(0)                  # (1, dim)
+        neighbors = neighbors.unsqueeze(0)  # (1, K, dim)
+        labels = labels.unsqueeze(0)        # (1, K)
+
+        # Forward
+        pred, _ = model(x, neighbors, labels)  # (1, num_classes)
+
+        # Compute loss
         loss = loss_fn(pred, y.unsqueeze(0))
 
+        # Backprop
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -38,20 +34,6 @@ def train(model, X_train, y_train, optimizer, loss_fn, K):
 
 
 def evaluate(model, X_test, y_test, X_train, y_train, K):
-    """
-    Evaluates the model on the given data.
-
-    Args:
-        model: The model to be evaluated.
-        X_test: The test data.
-        y_test: The labels for the test data.
-        X_train: The training data.
-        y_train: The labels for the training data.
-        K: The number of nearest neighbors to consider when evaluating the model.
-
-    Returns:
-        The accuracy of the model on the test data.
-    """
     model.eval()
     correct = 0
 
@@ -60,10 +42,18 @@ def evaluate(model, X_test, y_test, X_train, y_train, K):
             x = X_test[i]
             y = y_test[i]
 
+            # Get neighbors from TRAIN set
             neighbors, labels = get_knn(x, X_train, y_train, K)
-            pred = model(x, neighbors, labels)
 
-            if pred.argmax() == y:
+            # Add batch dimension
+            x = x.unsqueeze(0)
+            neighbors = neighbors.unsqueeze(0)
+            labels = labels.unsqueeze(0)
+
+            # Forward
+            pred, _ = model(x, neighbors, labels)
+
+            if pred.argmax(dim=1).item() == y.item():
                 correct += 1
 
     return correct / len(X_test)

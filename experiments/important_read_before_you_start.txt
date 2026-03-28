@@ -1,0 +1,46 @@
+🧪 What Kind of Data to Generate (for Testing Attention-KNN)
+
+To properly evaluate the model, the data should be designed in a way that standard KNN struggles, so we can clearly observe the benefit of the attention mechanism.
+
+🎯 Recommended Data Characteristics
+1️⃣ Overlapping Classes
+Generate data where different classes are not perfectly separable
+Some points from different classes should be close to each other
+
+👉 This creates ambiguous neighbors, where:
+
+Standard KNN gets confused
+Attention-KNN can learn to prioritize better neighbors
+2️⃣ Noisy Labels
+Randomly flip a percentage of labels (e.g., 10–20%)
+
+👉 This simulates real-world errors:
+
+KNN blindly trusts neighbors
+Attention-KNN can reduce the influence of incorrect ones
+3️⃣ Irrelevant / Redundant Features
+Add extra features that do not help classification
+
+👉 This creates high-dimensional noise:
+
+KNN performance drops
+Attention helps focus on useful patterns
+🧠 Why this is important
+
+These conditions create situations where:
+
+Distance alone is not enough
+Some neighbors are misleading
+
+👉 Your model’s strength is exactly here:
+
+It learns to weight neighbors differently instead of treating them equally
+
+🏆 Ideal Setup
+2 to 4 classes
+20–50 features
+5–10 informative features
+10–20% label noise
+⚡ One-line summary
+
+Generate data with overlap, noise, and irrelevant features to highlight the advantage of Attention-KNN over standard KNN.
