@@ -7,9 +7,6 @@ data_voc/
 *.npz
 *.tar.gz
 
-# Model weights
-*.pt
-
 # Python cache
 __pycache__/
 *.pyc
@@ -18,5 +15,5 @@ __pycache__/
 # OS files
 .DS_Store
 
-# Jupyter
+# Jupyter checkpoints
 .ipynb_checkpoints/
