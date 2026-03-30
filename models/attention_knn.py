@@ -4,8 +4,10 @@ import torch.nn.functional as F
 
 
 class AttentionKNN(nn.Module):
-    def __init__(self, input_dim, hidden_dim=64):
+    def __init__(self, input_dim, num_classes=2, hidden_dim=64):
         super(AttentionKNN, self).__init__()
+
+        self.num_classes = num_classes
 
         # Attention network
         self.attn = nn.Sequential(
@@ -38,9 +40,8 @@ class AttentionKNN(nn.Module):
         # Normalize with softmax
         weights = F.softmax(scores, dim=1)  # (batch_size, K)
 
-        # One-hot encode labels
-        num_classes = int(neighbor_labels.max().item()) + 1
-        one_hot = F.one_hot(neighbor_labels, num_classes=num_classes).float()
+        # One-hot encode labels — use fixed num_classes
+        one_hot = F.one_hot(neighbor_labels, num_classes=self.num_classes).float()
 
         # Weighted sum of neighbor labels
         weighted_votes = weights.unsqueeze(-1) * one_hot

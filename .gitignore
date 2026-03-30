@@ -1,0 +1,22 @@
+# Data files
+data_cifar10/
+experiments/data_cifar10/
+data_mnist/
+data_voc/
+*.npy
+*.npz
+*.tar.gz
+
+# Model weights
+*.pt
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
